@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.music.dzr",
+    "sha256_cert_fingerprints": [
+      "44:1B:B5:C7:23:4D:D6:60:61:06:11:8A:4E:F4:A3:1F:3F:F5:C5:CC:C6:A1:FE:38:E2:2A:FA:7C:FE:79:8B:CA"
+    ]
+  }
+}]
