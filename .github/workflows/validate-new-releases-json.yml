@@ -1,35 +1,35 @@
 name: Validate new-releases JSON
 
 on:
+  workflow_dispatch:
   push:
-    branches: [ main, master ]
+    branches: [ main ]
     paths:
       - 'assets/releases/**'
   pull_request:
-    branches: [ main, master ]
+    branches: [ main ]
     paths:
       - 'assets/releases/**'
 
 jobs:
-  validate-new-releases:
+  validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Set up Node.js 20
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
 
-      - name: Install ajv-cli
-        run: npm install -g ajv-cli@6
-
-      - name: Validate new-releases.json against schema
+      - name: Validate new-releases.json against schema (using npx ajv-cli@5)
         run: |
           SCHEMA="assets/releases/new-releases.schema.json"
           DATA="assets/releases/new-releases.json"
 
-          echo "Validating $DATA with $SCHEMA..."
-          npx -y ajv-cli@5 validate -s "$SCHEMA" -d "$DATA" --strict=false || (echo "Schema validation failed for $DATA" && exit 1)
+          echo "Validating $DATA against $SCHEMA ..."
+          npx -y ajv-cli@5 validate -s "$SCHEMA" -d "$DATA" --strict=false
           echo "Schema validation OK"
